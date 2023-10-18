@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<ul>
+    {{#each products}}
+    <li>
+        <img src="{{thumbnail}}" alt="{{title}}">
+        <p>Nombre: {{title}}</p>
+        <p>Descripción: {{description}}</p>
+        <p>Precio: {{price}}</p>
+        <p>Código: {{code}}</p>
+        <p>Stock: {{stock}}</p>
+    </li>
+    {{/each}}
+</ul>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.script.js"></script>

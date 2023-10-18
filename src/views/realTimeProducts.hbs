@@ -1,0 +1,37 @@
+<h1>{{title}} - Productos en tiempo real</h1>
+<h2>Eliminar Productos 👎</h2>
+<form id="delete-product-form">
+    <label for="product-id">ID del producto a eliminar:</label>
+    <input type="text" name="product-id" id="product-id" required>
+    <button type="submit">Eliminar</button>
+</form>
+<h2>Crear Productos 👍</h2>
+<form id="create-product-form">
+    <label for="title">Nombre del producto:</label>
+    <input type="text" name="title" id="title" required><br>
+    <label for="description">Descripción del producto:</label>
+    <input type="text" name="description" id="description" required><br>
+    <label for="price">Precio del producto:</label>
+    <input type="number" name="price" id="price" required><br>
+    <label for="thumbnail">URL de la imagen del producto:</label>
+    <input type="text" name="thumbnail" id="thumbnail"><br>
+    <label for="code">Código del producto:</label>
+    <input type="text" name="code" id="code" required><br>
+    <label for="stock">Stock del producto:</label>
+    <input type="number" name="stock" id="stock" required><br>
+    <button type="submit">Crear</button>
+</form>
+<ul id="products-list">
+    {{#each products}}
+    <li>
+        <img src="{{thumbnail}}" alt="{{title}}">
+        <p>Nombre: {{title}}</p>
+        <p>Descripción: {{description}}</p>
+        <p>Precio: {{price}}</p>
+        <p>Código: {{code}}</p>
+        <p>Stock: {{stock}}</p>
+    </li>
+    {{/each}}
+</ul>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.script.js"></script>
