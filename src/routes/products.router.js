@@ -9,13 +9,60 @@ const router = express.Router();
 const productManager = new ProductManager();
 
 router.get("/products", async (req, res) => {
-    const products = await productManager.getProducts();
-    const limit = req.query.limit || products.length;
-    res.json(products.slice(0, limit));
+    const { limit = 10, page = 1, sort = null, query = null } = req.query;
+    const options = {};
+    options.limit = limit;
+    options.page = page;
+    if (sort) {
+        options.sort = { price: sort === 'asc' ? 1 : -1 };
+    }
+    if (query) {
+        const filter = {};
+            if (query.category) {
+            filter.category = query.category;
+            }
+            if (query.available) {
+                filter.available = query.available === "true";
+              }
+              options.filter = filter;
+    }
+    try {
+        const result = await productManager.getProducts(options);
+        const count = await productManager.countProducts(options.filter);
+        // Calculamos el número total de páginas según el límite
+        const totalPages = Math.ceil(count / limit);
+        // Determinamos si hay página previa y siguiente
+        const hasPrevPage = page > 1;
+        const hasNextPage = page < totalPages;
+        // Creamos los links para la página previa y siguiente
+        const prevLink = hasPrevPage
+          ? `/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}`
+          : null;
+        const nextLink = hasNextPage
+          ? `/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}`
+          : null;
+        // Creamos el objeto de respuesta con el formato solicitado
+        const response = {
+          status: "success",
+          payload: result,
+          totalPages: totalPages,
+          prevPage: page - 1,
+          nextPage: page + 1,
+          page: page,
+          hasPrevPage: hasPrevPage,
+          hasNextPage: hasNextPage,
+          prevLink: prevLink,
+          nextLink: nextLink,
+        };
+        // Enviamos el objeto de respuesta como JSON
+        res.json(response);
+    } catch (error) {
+        // Si hay algún error, lo manejamos con el middleware de errores
+        console.log(error);
+    }
 })
 
 router.get("/products/:pid", async (req, res) => {
-    //const idProduct = parseInt(req.params.pid);
     const idProduct = req.params.pid;
     const product = await productManager.getProductsById(idProduct);
     if(!product) return res.send({error: "Producto no encontrado"});
@@ -39,7 +86,6 @@ router.post("/products", (req, res)=>{
 })
 
 router.put("/products/:pid", async (req, res) => {
-    //const idProduct = parseInt(req.params.pid);
     const idProduct = req.params.pid;
     const product = await productManager.getProductsById(idProduct);
     if(!product) return res.send({error: "Producto no encontrado"});
@@ -54,7 +100,6 @@ router.put("/products/:pid", async (req, res) => {
 })
 
 router.delete("/products/:pid", async (req, res) => {
-    //const idProduct = parseInt(req.params.pid);
     const idProduct = req.params.pid;
     try {
         const product = await productManager.getProductsById(idProduct);
@@ -66,6 +111,5 @@ router.delete("/products/:pid", async (req, res) => {
         res.status(500).send(error.message);
     }
 })
-
 
 module.exports = router;

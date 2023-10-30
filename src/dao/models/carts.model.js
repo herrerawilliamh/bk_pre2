@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cartCollection = "carts";
 const cartSchema = new mongoose.Schema({
     products: [{
-        id: {type: String, required: true},
+        id: {type: mongoose.Schema.Types.ObjectId, ref: 'products', required: true},
         //title: {type: String, required: true, max: 100},
         //description: {type: String, required: true, max: 100},
         //code: {type: String, required: true, max: 100},
