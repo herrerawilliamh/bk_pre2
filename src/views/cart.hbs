@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <h1>{{title}}</h1>
+    {{#if products}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th> <!-- Nueva columna para las acciones -->
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                    <tr>
+                        <td>{{this.id.title}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td> <!-- Nuevas acciones para cada producto -->
+                            <button onclick="removeProduct('{{this.id._id}}')">Eliminar</button>
+                            <button onclick="increaseQuantity('{{this.id._id}}')">+</button>
+                            <button onclick="decreaseQuantity('{{this.id._id}}')">-</button>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <p>No hay productos en el carrito.</p>
+    {{/if}}
+</body>
+</html>

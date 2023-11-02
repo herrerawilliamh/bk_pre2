@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>WILLY Ecommerce - Productos</h1>
+    <div class="container">
+    <div class="row">
+        {{#each products}}
+        <div class="col-md-4">
+            <div class="card">
+            <img src="{{thumbnail}}" alt="{{title}}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <p class="card-text">{{description}}</p>
+                <p class="card-text">Precio: ${{price}}</p>
+                <p class="card-text">Stock: {{stock}}</p>
+                <!-- Opción 1: Llevar a una nueva vista con el producto seleccionado -->
+                <a href="/products/{{_id}}" class="btn btn-primary">Ver detalles</a>
+                <!-- Opción 2: Contar con el botón de “agregar al carrito” directamente -->
+                <a href="/carts/add/{{_id}}" class="btn btn-success">Agregar al carrito</a>
+            </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    </div>
+
+    <!-- Paginación -->
+    {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Página anterior</a>
+    {{/if}}
+    Página {{currentPage}} de {{totalPages}}
+    {{#if hasNextPage}}
+        <a href="{{nextLink}}">Página siguiente</a>
+    {{/if}}
+
+    <script src="/socket.io/socket.io.js"></script>
+</body>
+</html>

@@ -9,10 +9,12 @@ const router = express.Router();
 const productManager = new ProductManager();
 
 router.get("/products", async (req, res) => {
-    const { limit = 10, page = 1, sort = null, query = null } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const sort = req.query.sort;
+    const query = req.query.query;
+    const offset = (page - 1) * limit;
     const options = {};
-    options.limit = limit;
-    options.page = page;
     if (sort) {
         options.sort = { price: sort === 'asc' ? 1 : -1 };
     }
@@ -27,40 +29,39 @@ router.get("/products", async (req, res) => {
               options.filter = filter;
     }
     try {
-        const result = await productManager.getProducts(options);
-        const count = await productManager.countProducts(options.filter);
-        // Calculamos el número total de páginas según el límite
-        const totalPages = Math.ceil(count / limit);
-        // Determinamos si hay página previa y siguiente
-        const hasPrevPage = page > 1;
-        const hasNextPage = page < totalPages;
-        // Creamos los links para la página previa y siguiente
+        const products = await productManager.getProducts({offset, limit});
+        const total = await productManager.countProducts();
+
+        const totalPages = Math.ceil(total / limit);
+        const prevPage = page > 1 ? page - 1 : null;
+        const nextPage = page < totalPages ? page + 1 : null;
+        const hasPrevPage = prevPage !== null;
+        const hasNextPage = nextPage !== null;
+
         const prevLink = hasPrevPage
-          ? `/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}`
+          ? `/products?limit=${limit}&page=${prevPage}`
           : null;
         const nextLink = hasNextPage
-          ? `/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}`
+          ? `/products?limit=${limit}&page=${nextPage}`
           : null;
-        // Creamos el objeto de respuesta con el formato solicitado
-        const response = {
-          status: "success",
-          payload: result,
-          totalPages: totalPages,
-          prevPage: page - 1,
-          nextPage: page + 1,
-          page: page,
-          hasPrevPage: hasPrevPage,
-          hasNextPage: hasNextPage,
-          prevLink: prevLink,
-          nextLink: nextLink,
-        };
-        // Enviamos el objeto de respuesta como JSON
-        res.json(response);
+
+        res.render('products', {
+            title: "WILLY Ecommerce - Productos",
+            products: products,
+            prevPage: prevPage,
+            nextPage: nextPage,
+            totalPages: totalPages,
+            currentPage: page,
+            hasPrevPage: hasPrevPage,
+            hasNextPage: hasNextPage,
+            prevLink: prevLink,
+            nextLink: nextLink
+        });
     } catch (error) {
-        // Si hay algún error, lo manejamos con el middleware de errores
         console.log(error);
+        res.render('error', {message: error.message});
     }
-})
+});
 
 router.get("/products/:pid", async (req, res) => {
     const idProduct = req.params.pid;

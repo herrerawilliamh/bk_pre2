@@ -94,7 +94,7 @@ class CartManager{
             cart.products = products;
             await cart.save();
             console.log('Carrito actualizado');
-            return cart.populate('products.id').execPopulate();
+            //return cart.populate('products.id').execPopulate();
           }else{
             return "Carrito no encontrado";
           }

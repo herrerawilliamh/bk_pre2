@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px;
+  }
+  
+  .col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    padding: 15px;
+  }
+  
+  .card {
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-body {
+    padding: .75rem;
+  }
+  
+  .card-title {
+    margin-bottom: .75rem;
+  }
+  
+  .card-text {
+    margin-bottom: .75rem;
+  }
+  
+  .btn {
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: none;
+    padding: .375rem .75rem;
+    font-size: .875rem;
+    line-height: normal;
+    border-radius: .25rem;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+  }
+  
+  .btn-success {
+    color: #fff;
+    background-color: #28a745;
+  }
+  
+  .btn:hover {
+     filter:brightness(90%);
+  }
+  
+  .pagination {
+     display:flex; 
+     justify-content:center; 
+     align-items:center; 
+     margin-top:.5rem; 
+     margin-bottom:.5rem; 
+  }
+  
+  .paginate {
+     display:flex; 
+     list-style:none; 
+     padding-left:.5rem; 
+     padding-right:.5rem; 
+     border-radius:.25rem; 
+  }
+  
+  .pageNumber {
+     margin-left:-1px; 
+     position:relative; 
+     display:block; 
+     padding:.5rem .75rem; 
+     margin-bottom:-1px; 
+     background-color:#fff; 
+     border:solid #dee2e6; 
+     border-width:.0625rem .0625rem .0625rem .0625rem
+  }
+  
+  .pageNumber a {
+     color:#007bff; 
+     text-decoration:none; 
+     background-color:transparent
+  }
+  
+  .pageNumber:hover {
+     z-index:2; 
+     color:#0056b3; 
+     text-decoration:none; 
+     background-color:#e9ecef; 
+     border-color:#dee2e6
+  }
+  
+  .pageNumber.active {
+     z-index:3; 
+     color:#fff; 
+     pointer-events:none; 
+     cursor:default; 
+     background-color:#007bff; 
+     border-color:#007bff
+  }
+  
+  .pageNumber.disabled {
+     color:#6c757d; 
+     pointer-events:none; 
+     cursor:auto; 
+     background-color:#fff; 
+     border-color:#dee2e6
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}

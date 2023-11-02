@@ -33,12 +33,10 @@ class ProductManager{
         }
         await productModel.create(product)
     }
-    async getProducts(options){
+    async getProducts({offset, limit}){
         try {
-            const data_products = await productModel.find()
-            const result = await productModel.paginate({}, options);
-            return this.products = data_products
-            return result;
+            const data_products = await productModel.find().skip(offset).limit(limit);
+            return data_products
         } catch (error) {
             console.error("Error de lectura", error);
         }   
